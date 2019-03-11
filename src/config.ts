@@ -34,6 +34,14 @@ export class MackerelContainerAgentConfig {
       : undefined
   }
 
+  public addRole(role: ServiceRole): void {
+    if (this.serviceRoles) {
+      this.serviceRoles.push(role)
+    } else {
+      this.serviceRoles = [role]
+    }
+  }
+
   public toJSON(key: string): { [k: string]: any } {
     const json: { [k: string]: any } = { ...this }
     json.roles = this.roles

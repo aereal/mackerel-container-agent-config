@@ -32,9 +32,12 @@ describe("MackerelContainerAgentConfig", () => {
         { service: "My-service", role: "proxy" },
       ],
     })
+    config.addRole({ service: "My-service", role: "app" })
     expect(JSON.parse(JSON.stringify(config))).toEqual(
       JSON.parse(
-        JSON.stringify({ roles: ["My-service:db", "My-service:proxy"] })
+        JSON.stringify({
+          roles: ["My-service:db", "My-service:proxy", "My-service:app"],
+        })
       )
     )
   })

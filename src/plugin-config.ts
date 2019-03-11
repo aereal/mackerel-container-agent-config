@@ -30,4 +30,15 @@ export class PluginConfig {
     this.metrics = props.metrics || {}
     this.checks = props.checks || {}
   }
+
+  public addMetricPlugin(
+    name: string,
+    metricPlugin: IMetricPluginConfig
+  ): void {
+    this.metrics[name] = metricPlugin
+  }
+
+  public addCheckPlugin(name: string, checkPlugin: ICheckPluginConfig): void {
+    this.checks[name] = checkPlugin
+  }
 }

@@ -1,5 +1,6 @@
 import { PluginConfig } from "./plugin-config"
 import { ReadinessProbe } from "./readiness-probe"
+import { ServiceRoleList } from "./service-roles"
 
 // from https://mackerel.io/ja/docs/entry/howto/container-agent
 
@@ -19,13 +20,14 @@ export class MackerelContainerAgentConfig {
   public apibase?: string
   public ignoreContainer?: string
   public root?: string
-  public serviceRoles?: ServiceRole[]
   public plugins: PluginConfig
   public readinessProbe?: ReadinessProbe
+  public roles: ServiceRoleList
 
   constructor(props?: MackerelContainerAgentConfigProps) {
     if (!props) {
       this.plugins = new PluginConfig({})
+      this.roles = new ServiceRoleList({ serviceRoles: [] })
       return
     }
 
@@ -33,23 +35,13 @@ export class MackerelContainerAgentConfig {
     this.apibase = props.apibase
     this.ignoreContainer = props.ignoreContainer
     this.root = props.root
-    this.serviceRoles = props.roles
+    this.roles = new ServiceRoleList({ serviceRoles: props.roles || [] })
     this.plugins = props.plugins || new PluginConfig({})
     this.readinessProbe = props.readinessProbe
   }
 
-  get roles(): ReadonlyArray<string> | undefined {
-    return this.serviceRoles
-      ? this.serviceRoles.map(({ service, role }) => `${service}:${role}`)
-      : undefined
-  }
-
   public addRole(role: ServiceRole): void {
-    if (this.serviceRoles) {
-      this.serviceRoles.push(role)
-    } else {
-      this.serviceRoles = [role]
-    }
+    this.roles.add(role)
   }
 
   public toJSON(key: string): { [k: string]: any } {

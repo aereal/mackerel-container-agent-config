@@ -7,6 +7,7 @@ describe("MackerelContainerAgentConfig", () => {
       JSON.parse(
         JSON.stringify({
           plugins: { checks: {}, metrics: {} },
+          roles: [],
         })
       )
     )
@@ -26,6 +27,7 @@ describe("MackerelContainerAgentConfig", () => {
           apikey: "keep-my-secret",
           ignoreContainer: "mackerel",
           plugins: { checks: {}, metrics: {} },
+          roles: [],
           root: "/",
         })
       )
@@ -86,6 +88,7 @@ describe("MackerelContainerAgentConfig", () => {
             },
             metrics: {},
           },
+          roles: [],
         })
       )
     )
@@ -120,6 +123,7 @@ describe("MackerelContainerAgentConfig", () => {
         periodSeconds: 3,
         timeoutSeconds: 5,
       },
+      roles: [],
     })
   })
 })

@@ -1,9 +1,15 @@
-import { MackerelContainerAgentConfig } from "../"
+import { MackerelContainerAgentConfig, PluginConfig } from "../"
 
 describe("MackerelContainerAgentConfig", () => {
   test("with no props", () => {
     const config = new MackerelContainerAgentConfig()
-    expect(JSON.stringify(config)).toBe(JSON.stringify({}))
+    expect(JSON.parse(JSON.stringify(config))).toEqual(
+      JSON.parse(
+        JSON.stringify({
+          plugins: { checks: {}, metrics: {} },
+        })
+      )
+    )
   })
 
   test("with common props", () => {
@@ -19,6 +25,7 @@ describe("MackerelContainerAgentConfig", () => {
           apibase: "https://example.com/api/v0",
           apikey: "keep-my-secret",
           ignoreContainer: "mackerel",
+          plugins: { checks: {}, metrics: {} },
           root: "/",
         })
       )
@@ -36,7 +43,49 @@ describe("MackerelContainerAgentConfig", () => {
     expect(JSON.parse(JSON.stringify(config))).toEqual(
       JSON.parse(
         JSON.stringify({
+          plugins: { checks: {}, metrics: {} },
           roles: ["My-service:db", "My-service:proxy", "My-service:app"],
+        })
+      )
+    )
+  })
+
+  test("with check plugin config", () => {
+    const plugins = new PluginConfig({
+      checks: {
+        procs: {
+          command: "check-procs --pattern=/usr/sbin/sshd --warning-under=1",
+          env: {
+            FOO: "BAR",
+          },
+          memo: "check procs memo",
+          timeoutSeconds: 45,
+          user: "sample-user",
+        },
+      },
+      metrics: {},
+    })
+    const config = new MackerelContainerAgentConfig({
+      plugins,
+    })
+    expect(JSON.parse(JSON.stringify(config))).toEqual(
+      JSON.parse(
+        JSON.stringify({
+          plugins: {
+            checks: {
+              procs: {
+                command:
+                  "check-procs --pattern=/usr/sbin/sshd --warning-under=1",
+                env: {
+                  FOO: "BAR",
+                },
+                memo: "check procs memo",
+                timeoutSeconds: 45,
+                user: "sample-user",
+              },
+            },
+            metrics: {},
+          },
         })
       )
     )

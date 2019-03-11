@@ -1,3 +1,5 @@
+import { PluginConfig } from "./plugin-config"
+
 // from https://mackerel.io/ja/docs/entry/howto/container-agent
 
 // tslint:disable:interface-name
@@ -7,6 +9,7 @@ interface MackerelContainerAgentConfigProps {
   ignoreContainer?: string
   root?: string
   roles?: ServiceRole[]
+  plugins?: PluginConfig
 }
 
 export class MackerelContainerAgentConfig {
@@ -15,9 +18,11 @@ export class MackerelContainerAgentConfig {
   public ignoreContainer?: string
   public root?: string
   public serviceRoles?: ServiceRole[]
+  public plugins: PluginConfig
 
   constructor(props?: MackerelContainerAgentConfigProps) {
     if (!props) {
+      this.plugins = new PluginConfig({})
       return
     }
 
@@ -26,6 +31,7 @@ export class MackerelContainerAgentConfig {
     this.ignoreContainer = props.ignoreContainer
     this.root = props.root
     this.serviceRoles = props.roles
+    this.plugins = props.plugins || new PluginConfig({})
   }
 
   get roles(): ReadonlyArray<string> | undefined {

@@ -24,4 +24,18 @@ describe("MackerelContainerAgentConfig", () => {
       )
     )
   })
+
+  test("with roles", () => {
+    const config = new MackerelContainerAgentConfig({
+      roles: [
+        { service: "My-service", role: "db" },
+        { service: "My-service", role: "proxy" },
+      ],
+    })
+    expect(JSON.parse(JSON.stringify(config))).toEqual(
+      JSON.parse(
+        JSON.stringify({ roles: ["My-service:db", "My-service:proxy"] })
+      )
+    )
+  })
 })

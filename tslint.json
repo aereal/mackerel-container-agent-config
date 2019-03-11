@@ -13,8 +13,7 @@
                 "semi": false,
                 "trailingComma": "es5"
             }
-        ],
-        "interface-name": [true, "never-prefix"]
+        ]
     },
     "rulesDirectory": [
         "tslint-plugin-prettier"

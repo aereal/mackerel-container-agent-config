@@ -7,7 +7,7 @@
   "scripts": {
     "lint": "tslint -p .",
     "lint:fix": "tslint -p . --fix",
-    "build": "tsc -p ."
+    "build": "tsc -p ./tsconfig.live.json"
   },
   "devDependencies": {
     "@types/jest": "^24.0.11",

@@ -1,4 +1,5 @@
 import { PluginConfig } from "./plugin-config"
+import { ReadinessProbe } from "./readiness-probe"
 
 // from https://mackerel.io/ja/docs/entry/howto/container-agent
 
@@ -10,6 +11,7 @@ interface MackerelContainerAgentConfigProps {
   root?: string
   roles?: ServiceRole[]
   plugins?: PluginConfig
+  readinessProbe?: ReadinessProbe
 }
 
 export class MackerelContainerAgentConfig {
@@ -19,6 +21,7 @@ export class MackerelContainerAgentConfig {
   public root?: string
   public serviceRoles?: ServiceRole[]
   public plugins: PluginConfig
+  public readinessProbe?: ReadinessProbe
 
   constructor(props?: MackerelContainerAgentConfigProps) {
     if (!props) {
@@ -32,6 +35,7 @@ export class MackerelContainerAgentConfig {
     this.root = props.root
     this.serviceRoles = props.roles
     this.plugins = props.plugins || new PluginConfig({})
+    this.readinessProbe = props.readinessProbe
   }
 
   get roles(): ReadonlyArray<string> | undefined {

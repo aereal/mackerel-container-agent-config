@@ -90,4 +90,36 @@ describe("MackerelContainerAgentConfig", () => {
       )
     )
   })
+
+  test("with readinessProbe", () => {
+    const config = new MackerelContainerAgentConfig({
+      readinessProbe: {
+        exec: {
+          command: "cat /tmp/healthy",
+          env: {
+            FOO: "FOO BAR",
+          },
+          user: "sample-user",
+        },
+        initialDelaySeconds: 10,
+        periodSeconds: 3,
+        timeoutSeconds: 5,
+      },
+    })
+    expect(JSON.parse(JSON.stringify(config))).toEqual({
+      plugins: { checks: {}, metrics: {} },
+      readinessProbe: {
+        exec: {
+          command: "cat /tmp/healthy",
+          env: {
+            FOO: "FOO BAR",
+          },
+          user: "sample-user",
+        },
+        initialDelaySeconds: 10,
+        periodSeconds: 3,
+        timeoutSeconds: 5,
+      },
+    })
+  })
 })
